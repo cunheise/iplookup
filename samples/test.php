@@ -8,7 +8,7 @@
  */
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-$ip = \IPLookup\Util::getCurrentIP();
+$ip = '115.60.19.180';
 $client = new \IPLookup\Client\TaobaoClient();
 $response = $client->request($ip);
-print_r($response->region);
+echo $response->region . PHP_EOL;
