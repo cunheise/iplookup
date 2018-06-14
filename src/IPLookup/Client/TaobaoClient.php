@@ -25,22 +25,27 @@ class TaobaoClient extends AbstractClient
 
     /**
      * @param string $ip
-     * @return Response
+     * @return \IPLookup\Response
      */
     public function request($ip)
     {
-        $client = new Client();
-        $response = $client->get($this->baseUrl, [
-            'query' => ['ip' => $ip]
-        ]);
-        if ($response->getStatusCode() != 200) {
-            return new Response($ip, $response->getStatusCode());
+        $response = $this->getCache()->get($ip, null);
+        if ($response == null || $response->getCode() != 0) {
+            $client = new Client();
+            $response = $client->get($this->baseUrl, [
+                'query' => ['ip' => $ip]
+            ]);
+            if ($response->getStatusCode() != 200) {
+                return new Response($ip, $response->getStatusCode());
+            }
+            $data = json_decode($response->getBody(), true);
+            if ($data['code'] != 0) {
+                return new Response($ip, $data['code']);
+            }
+            $response = new Response($ip, $data['code'], $data['data']);
+            $this->getCache()->set($ip, $response);
         }
-        $data = json_decode($response->getBody(), true);
-        if ($data['code'] != 0) {
-            return new Response($ip, $data['code']);
-        }
-        return new Response($ip, $data['code'], $data['data']);
+        return $response;
     }
 
 }
