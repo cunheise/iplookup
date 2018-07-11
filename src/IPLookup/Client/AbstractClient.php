@@ -2,18 +2,14 @@
 /**
  * Created by PhpStorm.
  * User: nathan
- * Date: 2018/6/12
- * Time: 11:03
+ * Date: 2018/7/11
+ * Time: 10:56
  */
-
 
 namespace IPLookup\Client;
 
-
-use IPLookup\Response;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Simple\NullCache;
-
 
 /**
  * Class AbstractClient
@@ -22,40 +18,59 @@ use Symfony\Component\Cache\Simple\NullCache;
 abstract class AbstractClient implements ClientInterface
 {
     /**
-     * @var string $baseUrl
+     * @var CacheInterface $cache ;
      */
-    protected $baseUrl;
+    protected $cache;
 
     /**
-     * @var CacheInterface $cache
+     * AbstractClient constructor.
+     * @param CacheInterface|null $cache
      */
-    private $cache;
-
-    /**
-     * @param string $ip
-     * @return Response
-     */
-    abstract public function request($ip);
+    public function __construct(CacheInterface $cache = null)
+    {
+        $this->setCache($cache);
+    }
 
     /**
      * @return CacheInterface
      */
     public function getCache()
     {
-        if ($this->cache == null) {
-            $this->cache = new NullCache();
-        }
         return $this->cache;
     }
 
     /**
      * @param CacheInterface $cache
-     * @return AbstractClient
      */
-    public function setCache(CacheInterface $cache)
+    public function setCache($cache)
     {
-        $this->cache = $cache;
+        if (null === $cache) {
+            $this->cache = new NullCache();
+        } else {
+            $this->cache = $cache;
+        }
         return $this;
     }
 
+    /**
+     * @param string $ip
+     * @return string
+     */
+    public function lookup($ip)
+    {
+        $cache = $this->getCache();
+        $key = md5($ip);
+        $data = $cache->get($key, null);
+        if (null === $data) {
+            $data = $this->doLookup($ip);
+            $cache->set($key, $data);
+        }
+        return $data;
+    }
+
+    /**
+     * @param $ip
+     * @return string
+     */
+    abstract protected function doLookup($ip);
 }

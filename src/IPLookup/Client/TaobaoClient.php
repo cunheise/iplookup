@@ -10,7 +10,6 @@ namespace IPLookup\Client;
 
 
 use GuzzleHttp\Client;
-use IPLookup\Response;
 
 /**
  * Class TaobaoClient
@@ -25,27 +24,22 @@ class TaobaoClient extends AbstractClient
 
     /**
      * @param string $ip
-     * @return \IPLookup\Response
+     * @return string
      */
-    public function request($ip)
+    protected function doLookup($ip)
     {
-        $response = $this->getCache()->get($ip, null);
-        if ($response == null || $response->getCode() != 0) {
-            $client = new Client();
-            $response = $client->get($this->baseUrl, [
-                'query' => ['ip' => $ip]
-            ]);
-            if ($response->getStatusCode() != 200) {
-                return new Response($ip, $response->getStatusCode());
-            }
-            $data = json_decode($response->getBody(), true);
-            if ($data['code'] != 0) {
-                return new Response($ip, $data['code']);
-            }
-            $response = new Response($ip, $data['code'], $data['data']);
-            $this->getCache()->set($ip, $response);
+        $client = new Client();
+        $response = $client->get($this->baseUrl, [
+            'query' => ['ip' => $ip]
+        ]);
+        if ($response->getStatusCode() != 200) {
+            return '';
         }
-        return $response;
+        $data = json_decode($response->getBody(), true);
+        if ($data['code'] != 0) {
+            return '';
+        }
+        return $data['data']['region'];
     }
 
 }

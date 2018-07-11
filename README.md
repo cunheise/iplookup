@@ -14,9 +14,10 @@ Sample
     require dirname(__DIR__) . '/vendor/autoload.php';
     
     $ip = '115.60.19.180';
-    $client = new \IPLookup\Client\TaobaoClient();
-    $response = $client->request($ip);
-    echo $response->region . PHP_EOL;
+    $iplookupService = new IPLookupService(new TaobaoClient(new FilesystemCache('namespace', 1 * 60 * 60, dirname(__DIR__) . '/runtime')));
+    echo $iplookupService->lookup($ip) . PHP_EOL;
+    $ip = \IPLookup\Util::getCurrentIP();
+    echo $iplookupService->lookup($ip) . PHP_EOL;
     
 License
 -------

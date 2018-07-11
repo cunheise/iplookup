@@ -15,13 +15,9 @@ use IPLookup\Response;
 class TaobaoClientTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testRequest()
+    public function testLookup()
     {
         $client = new TaobaoClient();
-        $response = $client->request('221.6.206.26');
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals($response->region, '江苏');
-        $this->assertEquals($response->getIP(), '221.6.206.26');
-        $this->assertEquals($response->getCode(), 0);
+        $this->assertEquals($client->lookup('221.6.206.26'), '江苏');
     }
 }

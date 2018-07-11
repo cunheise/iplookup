@@ -16,7 +16,7 @@ interface ClientInterface
 {
     /**
      * @param string $ip
-     * @return Response
+     * @return string
      */
-    public function request($ip);
+    public function lookup($ip);
 }
