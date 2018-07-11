@@ -18,18 +18,13 @@ use GuzzleHttp\Client;
 class TaobaoClient extends AbstractClient
 {
     /**
-     * @var string $baseUrl
-     */
-    protected $baseUrl = 'http://ip.taobao.com/service/getIpInfo.php';
-
-    /**
      * @param string $ip
      * @return string
      */
     protected function doLookup($ip)
     {
         $client = new Client();
-        $response = $client->get($this->baseUrl, [
+        $response = $client->get('http://ip.taobao.com/service/getIpInfo.php', [
             'query' => ['ip' => $ip]
         ]);
         if ($response->getStatusCode() != 200) {

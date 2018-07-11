@@ -8,9 +8,12 @@
 
 namespace IPLookup;
 
-
 use IPLookup\Client\ClientInterface;
 
+/**
+ * Interface IPLookupServiceInterface
+ * @package IPLookup
+ */
 interface IPLookupServiceInterface
 {
     /**
