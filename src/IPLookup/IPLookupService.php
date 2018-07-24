@@ -9,28 +9,27 @@
 namespace IPLookup;
 
 use IPLookup\Client\ClientInterface;
+use IPLookup\Exception\InvalidIpException;
 
 /**
  * Class IPLookupService
  * @package IPLookup
  */
-class IPLookupService implements IPLookupServiceInterface
+class IPLookupService
 {
-    /**
-     * IPLookupService constructor.
-     * @param ClientInterface $client
-     */
-    public function __construct(ClientInterface $client = null)
-    {
-        if (null !== $client) {
-            $this->setClient($client);
-        }
-    }
-
     /**
      * @var ClientInterface $client ;
      */
     protected $client;
+
+    /**
+     * IPLookupService constructor.
+     * @param ClientInterface $client
+     */
+    public function __construct(ClientInterface $client)
+    {
+        $this->setClient($client);
+    }
 
     /**
      * @param ClientInterface $client
@@ -43,20 +42,16 @@ class IPLookupService implements IPLookupServiceInterface
     }
 
     /**
-     * @return ClientInterface
-     */
-    public function getClient()
-    {
-        return $this->client;
-    }
-
-    /**
      * @param string $ip
      * @return string
+     * @throws InvalidIpException
      */
     public function lookup($ip)
     {
-        return $this->getClient()->lookup($ip);
+        if (!preg_match('/\b(?:\d{1,3}\.){3}\d{1,3}\b/', $ip)) {
+            throw new InvalidIpException("'$ip' is invalid");
+        }
+        return $this->client->lookup($ip);
     }
 
 }

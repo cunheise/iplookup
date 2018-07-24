@@ -17,15 +17,15 @@ class IPLookupServiceTest extends \PHPUnit_Framework_TestCase
     public function testLookup()
     {
         $service = new IPLookupService(new TaobaoClient());
-        $this->assertEquals($service->lookup('221.6.206.26'), '江苏');
+        $this->assertEquals($service->lookup('115.60.19.180'), '河南');
     }
 
     public function testLookupWithCache()
     {
-        $ip = '221.6.206.26';
+        $ip = '115.60.19.180';
         $cache = new ArrayCache(60);
         $service = new IPLookupService(new TaobaoClient($cache));
-        $this->assertEquals($service->lookup($ip), '江苏');
-        $this->assertEquals($cache->get(md5($ip)), '江苏');
+        $this->assertEquals($service->lookup($ip), '河南');
+        $this->assertEquals($cache->get(md5($ip)), '河南');
     }
 }

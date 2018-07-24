@@ -18,6 +18,12 @@ use Symfony\Component\Cache\Simple\NullCache;
 abstract class AbstractClient implements ClientInterface
 {
     /**
+     * @var array $headers
+     */
+    protected $headers = [
+        'User-Agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36',
+    ];
+    /**
      * @var CacheInterface $cache ;
      */
     protected $cache;
@@ -28,15 +34,10 @@ abstract class AbstractClient implements ClientInterface
      */
     public function __construct(CacheInterface $cache = null)
     {
+        if ($cache == null) {
+            $cache = new NullCache();
+        }
         $this->setCache($cache);
-    }
-
-    /**
-     * @return CacheInterface
-     */
-    public function getCache()
-    {
-        return $this->cache;
     }
 
     /**
@@ -44,11 +45,7 @@ abstract class AbstractClient implements ClientInterface
      */
     public function setCache($cache)
     {
-        if (null === $cache) {
-            $this->cache = new NullCache();
-        } else {
-            $this->cache = $cache;
-        }
+        $this->cache = $cache;
         return $this;
     }
 
@@ -58,12 +55,12 @@ abstract class AbstractClient implements ClientInterface
      */
     public function lookup($ip)
     {
-        $cache = $this->getCache();
         $key = md5($ip);
-        $data = $cache->get($key, null);
-        if (null === $data) {
+        if ($this->cache->has($key)) {
+            $data = $this->cache->get($key);
+        } else {
             $data = $this->doLookup($ip);
-            $cache->set($key, $data);
+            $this->cache->set($key, $data);
         }
         return $data;
     }

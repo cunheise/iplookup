@@ -18,6 +18,6 @@ class TaobaoClientTest extends \PHPUnit_Framework_TestCase
     public function testLookup()
     {
         $client = new TaobaoClient();
-        $this->assertEquals($client->lookup('221.6.206.26'), '江苏');
+        $this->assertEquals($client->lookup('115.60.19.180'), '河南');
     }
 }

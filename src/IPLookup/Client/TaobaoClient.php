@@ -10,6 +10,7 @@ namespace IPLookup\Client;
 
 
 use GuzzleHttp\Client;
+use IPLookup\Exception\RemoteGatewayException;
 
 /**
  * Class TaobaoClient
@@ -20,19 +21,23 @@ class TaobaoClient extends AbstractClient
     /**
      * @param string $ip
      * @return string
+     * @throws RemoteGatewayException
      */
     protected function doLookup($ip)
     {
         $client = new Client();
         $response = $client->get('http://ip.taobao.com/service/getIpInfo.php', [
-            'query' => ['ip' => $ip]
+            'query' => [
+                'ip' => $ip
+            ],
+            'headers' => $this->headers,
         ]);
         if ($response->getStatusCode() != 200) {
-            return '';
+            throw new RemoteGatewayException('remote gateway error');
         }
-        $data = json_decode($response->getBody(), true);
+        $data = json_decode($response->getBody()->getContents(), true);
         if ($data['code'] != 0) {
-            return '';
+            throw new RemoteGatewayException('remote gateway error');
         }
         return $data['data']['region'];
     }
