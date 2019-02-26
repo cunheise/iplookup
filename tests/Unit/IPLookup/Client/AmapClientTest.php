@@ -21,7 +21,7 @@ class AmapClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testLookup()
     {
-        $client = new AmapClient(['key' => 'ad68165b0fc8484038b1968c5f5cb82e']);
+        $client = new AmapClient(['key' => '5a3db75eff15f6c82fbe7ac5f57bd8a9']);
         $this->assertEquals($client->lookup('115.60.19.180'), '河南');
     }
 }
