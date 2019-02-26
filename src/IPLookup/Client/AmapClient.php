@@ -29,7 +29,7 @@ class AmapClient extends AbstractClient
     public function __construct($options)
     {
         if (isset($options['cache'])) {
-            parent::__construct(isset($options['cache']));
+            parent::__construct($options['cache']);
             unset($options['cache']);
         } else {
             parent::__construct();
