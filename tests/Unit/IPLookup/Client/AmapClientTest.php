@@ -10,8 +10,15 @@ namespace Tests\Unit\IPLookup\Client;
 
 use IPLookup\Client\AmapClient;
 
+/**
+ * Class AmapClientTest
+ * @package Tests\Unit\IPLookup\Client
+ */
 class AmapClientTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     *
+     */
     public function testLookup()
     {
         $client = new AmapClient(['key' => 'ad68165b0fc8484038b1968c5f5cb82e']);

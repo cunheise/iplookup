@@ -37,6 +37,11 @@ class AmapClient extends AbstractClient
         $this->config = array_merge(['output' => 'json'], $options);
     }
 
+    /**
+     * @param $ip
+     * @return string
+     * @throws RemoteGatewayException
+     */
     protected function doLookup($ip)
     {
         $client = new Client();

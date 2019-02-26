@@ -10,11 +10,17 @@ namespace Tests\Unit\IPLookup\Client;
 
 
 use IPLookup\Client\TaobaoClient;
-use IPLookup\Response;
 
+/**
+ * Class TaobaoClientTest
+ * @package Tests\Unit\IPLookup\Client
+ */
 class TaobaoClientTest extends \PHPUnit_Framework_TestCase
 {
 
+    /**
+     *
+     */
     public function testLookup()
     {
         $client = new TaobaoClient();

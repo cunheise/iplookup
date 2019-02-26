@@ -6,11 +6,19 @@
  * Time: 14:03
  */
 
-namespace IPLookup\Client;
+namespace Tests\Unit\IPLookup\Client;
 
+use IPLookup\Client\A126Client;
 
+/**
+ * Class A126ClientTest
+ * @package Tests\Unit\IPLookup\Client
+ */
 class A126ClientTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     *
+     */
     public function testLookup()
     {
         $client = new A126Client();

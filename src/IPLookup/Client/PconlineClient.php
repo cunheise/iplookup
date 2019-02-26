@@ -12,6 +12,10 @@ namespace IPLookup\Client;
 use GuzzleHttp\Client;
 use IPLookup\Exception\RemoteGatewayException;
 
+/**
+ * Class PconlineClient
+ * @package IPLookup\Client
+ */
 class PconlineClient extends AbstractClient
 {
 
@@ -34,6 +38,11 @@ class PconlineClient extends AbstractClient
         return $this->parseContent($response->getBody()->getContents());
     }
 
+    /**
+     * @param $content
+     * @return string
+     * @throws RemoteGatewayException
+     */
     private function parseContent($content)
     {
         $content = iconv("gb18030", "utf-8", $content);

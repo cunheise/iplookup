@@ -6,11 +6,19 @@
  * Time: 13:56
  */
 
-namespace IPLookup\Client;
+namespace Tests\Unit\IPLookup\Client;
 
+use IPLookup\Client\PconlineClient;
 
+/**
+ * Class PconlineClientTest
+ * @package Tests\Unit\IPLookup\Client
+ */
 class PconlineClientTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     *
+     */
     public function testLookup()
     {
         $client = new PconlineClient();
