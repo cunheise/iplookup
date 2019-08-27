@@ -57,7 +57,7 @@ class AmapClient extends AbstractClient
             throw new RemoteGatewayException('remote gateway error');
         }
         $data = json_decode($response->getBody()->getContents(), true);
-        return trim($data['province'], '省市');
+        return preg_replace('/省|市/', '', $data['province']);
     }
 
 }

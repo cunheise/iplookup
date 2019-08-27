@@ -47,7 +47,7 @@ class A126Client extends AbstractClient
     {
         $content = iconv("gb18030", "utf-8", $content);
         if (preg_match('#lo="([^"]+)"#', $content, $m)) {
-            return trim($m[1], '省市');
+            return preg_replace('/省|市/', '', $m[1]);
         } else {
             throw new RemoteGatewayException("can not parse remote gateway response");
         }

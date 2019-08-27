@@ -23,5 +23,6 @@ class PconlineClientTest extends \PHPUnit_Framework_TestCase
     {
         $client = new PconlineClient();
         $this->assertEquals($client->lookup('115.60.19.180'), '河南');
+        $this->assertEquals($client->lookup('111.30.29.50'), '天津');
     }
 }
